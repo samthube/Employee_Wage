@@ -22,29 +22,35 @@ def check_attendance():
     Return:
         int: Returns 1 if the employee is present, 0 if absent.
     """
-    return random.randint(0, 1) 
+    return random.randint(0, 2) 
 
 def calculate_wage():
     """
     Description:
-        This function calculates the daily wage for an employee based on a full day of work.
+        This function calculates the daily wage for both full-day and part-time work.
     
     Parameter:
         None
     
     Return:
-        int: The total daily wage of the employee.
+        int: The total full day and part-time wage of the employee.
     """
-    return WAGE_PER_HOUR * FULL_DAY_HOUR  
+    return WAGE_PER_HOUR * FULL_DAY_HOUR , (WAGE_PER_HOUR/2) * FULL_DAY_HOUR 
     
 
 def main():
 
     attendance = check_attendance()
+    full_day_wage , part_time_wage = calculate_wage()
     
     if attendance == 1:
         print("Employee is present")
-        print(f"Daily Wage Of Employee is: ${calculate_wage()}")
+        print(f"Daily Wage Of Employee is: ${full_day_wage}")
+        
+    elif attendance == 2:
+        print("Employee is present")
+        print(f"Part time Wage Of Employee is: ${part_time_wage}")
+        
     else:
         print("Employee is absent, no wage")
 
