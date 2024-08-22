@@ -37,23 +37,59 @@ def calculate_wage():
     """
     return WAGE_PER_HOUR * FULL_DAY_HOUR , (WAGE_PER_HOUR/2) * FULL_DAY_HOUR 
     
-
+def wage_for_month(full_day_wage , part_time_wage ):
+    """
+    Description:
+        This function simulates the employee's attendance and wage computation over a 20-day work period.
+        It tracks the number of full-time days, part-time days, and leave days.
+    
+    Parameter:
+        full_day_wage (int): The wage for a full day of work.
+        part_time_wage (int): The wage for a part-time day of work.
+    
+    Return:
+        list: A list of daily wages for the 20-day period.
+        int: The count of full-time days.
+        int: The count of part-time days.
+        int: The count of leave days.
+    """
+    i = 0
+    wages = []
+    full_time_count = 0
+    part_time_count = 0
+    leaves_count = 0
+    while (i < 20):
+        attendance = check_attendance()
+        match(attendance):
+            case 1:
+                wages.append(full_day_wage)
+                full_time_count += 1
+            
+            case 2:
+                wages.append(part_time_wage)
+                part_time_count +=1
+            
+            case(_):
+                wages.append(0)
+                leaves_count += 1
+                
+        i += 1
+    return wages , full_time_count ,part_time_count ,leaves_count    
+        
+        
+    
 def main():
 
-    attendance = check_attendance()
-    full_day_wage , part_time_wage = calculate_wage()
     
-    match(attendance):
-        case 1:
-            print("Employee is present")
-            print(f"Daily Wage Of Employee is: ${full_day_wage}")
-        
-        case 2:
-            print("Employee is present")
-            print(f"Part time Wage Of Employee is: ${part_time_wage}")
-        
-        case(_):
-            print("Employee is absent, no wage")
+    full_day_wage , part_time_wage = calculate_wage()
+    wages,full_time_count ,part_time_count ,leaves_count = wage_for_month(full_day_wage , part_time_wage )
+    
+    print (f"per day wages of employee: {wages} ")
+    print(f"wages of month : ${sum(wages)}")
+    print(f"Employye present full time : {full_time_count} days ") 
+    print(f"Employye present part time : {part_time_count} days ") 
+    print(f"Employye on leave : {leaves_count} days ") 
+    
 
 if __name__ == "__main__":
     main()
