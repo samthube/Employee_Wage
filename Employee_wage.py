@@ -43,16 +43,17 @@ def main():
     attendance = check_attendance()
     full_day_wage , part_time_wage = calculate_wage()
     
-    if attendance == 1:
-        print("Employee is present")
-        print(f"Daily Wage Of Employee is: ${full_day_wage}")
+    match(attendance):
+        case 1:
+            print("Employee is present")
+            print(f"Daily Wage Of Employee is: ${full_day_wage}")
         
-    elif attendance == 2:
-        print("Employee is present")
-        print(f"Part time Wage Of Employee is: ${part_time_wage}")
+        case 2:
+            print("Employee is present")
+            print(f"Part time Wage Of Employee is: ${part_time_wage}")
         
-    else:
-        print("Employee is absent, no wage")
+        case(_):
+            print("Employee is absent, no wage")
 
 if __name__ == "__main__":
     main()
