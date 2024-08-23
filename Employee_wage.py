@@ -74,7 +74,7 @@ def wage_for_month(full_day_wage , part_time_wage ):
                 total_wages.append(0)
                 leaves_count += 1
                 
-        i += 1
+        day += 1
     return total_wages , full_time_count ,part_time_count ,leaves_count    
         
         
