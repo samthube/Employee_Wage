@@ -10,6 +10,7 @@ import random
 
 WAGE_PER_HOUR = 20 
 FULL_DAY_HOUR = 8
+TOTAL_WORKING_DAYS = 20
 
 def check_attendance():
     """
@@ -53,28 +54,28 @@ def wage_for_month(full_day_wage , part_time_wage ):
         int: The count of part-time days.
         int: The count of leave days.
     """
-    i = 0
-    wages = []
+    day = 0
+    total_wages = []
     full_time_count = 0
     part_time_count = 0
     leaves_count = 0
-    while (i < 20):
+    while (day < TOTAL_WORKING_DAYS):
         attendance = check_attendance()
         match(attendance):
             case 1:
-                wages.append(full_day_wage)
+                total_wages.append(full_day_wage)
                 full_time_count += 1
             
             case 2:
-                wages.append(part_time_wage)
+                total_wages.append(part_time_wage)
                 part_time_count +=1
             
             case(_):
-                wages.append(0)
+                total_wages.append(0)
                 leaves_count += 1
                 
         i += 1
-    return wages , full_time_count ,part_time_count ,leaves_count    
+    return total_wages , full_time_count ,part_time_count ,leaves_count    
         
         
     
@@ -82,10 +83,10 @@ def main():
 
     
     full_day_wage , part_time_wage = calculate_wage()
-    wages,full_time_count ,part_time_count ,leaves_count = wage_for_month(full_day_wage , part_time_wage )
+    total_wages,full_time_count ,part_time_count ,leaves_count = wage_for_month(full_day_wage , part_time_wage )
     
-    print (f"per day wages of employee: {wages} ")
-    print(f"wages of month : ${sum(wages)}")
+    print (f"per day wages of employee: {total_wages} ")
+    print(f"wages of month : ${sum(total_wages)}")
     print(f"Employye present full time : {full_time_count} days ") 
     print(f"Employye present part time : {part_time_count} days ") 
     print(f"Employye on leave : {leaves_count} days ") 
