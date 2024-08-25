@@ -1,21 +1,34 @@
 '''
 @Author: Samadhan Thube
-@Date: 2024-08-22
+@Date: 2024-08-24
 @Last Modified by: Samadhan Thube
-@Last Modified time: 2024-08-22
-@Title : Employee Wage Computation Problem
+@Last Modified time: 2024-08-24
+@Title : Employee Wage Computation Problem 
 '''
 
 import random
 
 class Employee_Wage:
     
-    WAGE_PER_HOUR = 20 
-    FULL_DAY_HOUR = 8
-    MAX_WORKING_DAYS = 20
-    MAX_WORKING_HOURS = 100
-    
-    def __init__(self):
+    def __init__(self, wage_per_hour, full_day_hour, max_working_days, max_working_hours):
+        """
+        Description:
+            Initializes the Employee_Wage object with company-specific details.
+        
+        Parameter:
+            wage_per_hour (int): The wage per hour for the employee.
+            full_day_hour (int): The number of hours considered a full day.
+            max_working_days (int): The maximum number of working days in a month.
+            max_working_hours (int): The maximum number of working hours in a month.
+            
+        Return:
+            None
+        """
+        self.wage_per_hour = wage_per_hour
+        self.full_day_hour = full_day_hour
+        self.max_working_days = max_working_days
+        self.max_working_hours = max_working_hours
+        
         self.daily_wages = []
         self.total_days = 0
         self.total_hours = 0
@@ -35,10 +48,9 @@ class Employee_Wage:
         Return:
             int: Returns 0 if the employee is absent, 1 if full-time, 2 if part-time.
         """
-        return random.randint(0, 2) 
+        return random.randint(0, 2)
 
-    @classmethod
-    def calculate_wage(cls):
+    def calculate_wage(self):
         """
         Description:
             This function calculates the daily wage for both full-day and part-time work.
@@ -49,8 +61,8 @@ class Employee_Wage:
         Return:
             tuple: The wages for a full day and a part-time day.
         """
-        return cls.WAGE_PER_HOUR * cls.FULL_DAY_HOUR, (cls.WAGE_PER_HOUR // 2) * cls.FULL_DAY_HOUR 
-        
+        return self.wage_per_hour * self.full_day_hour, (self.wage_per_hour // 2) * self.full_day_hour
+
     def wage_for_month(self, full_day_wage, part_time_wage):
         """
         Description:
@@ -62,10 +74,10 @@ class Employee_Wage:
             part_time_wage (int): The wage for a part-time day of work.
         
         Return:
-            tuple: A list of daily wages for the 20-day period, counts of full-time, part-time, leave days, and total hours worked.
+            tuple: A list of daily wages for the period, counts of full-time, part-time, leave days, and total hours worked.
         """
         
-        while self.total_days < self.MAX_WORKING_DAYS and self.total_hours < self.MAX_WORKING_HOURS:
+        while self.total_days < self.max_working_days and self.total_hours < self.max_working_hours:
             attendance = 2 if self.total_hours == 96 else self.check_attendance()
             
             match attendance:
@@ -73,24 +85,32 @@ class Employee_Wage:
                     self.daily_wages.append(full_day_wage)
                     self.full_time_count += 1
                     self.total_days += 1
-                    self.total_hours += self.FULL_DAY_HOUR
+                    self.total_hours += self.full_day_hour
                 
                 case 2:
                     self.daily_wages.append(part_time_wage)
                     self.part_time_count += 1
                     self.total_days += 1
-                    self.total_hours += self.FULL_DAY_HOUR / 2
+                    self.total_hours += self.full_day_hour / 2
                 
                 case 0:
                     self.daily_wages.append(0)
                     self.leaves_count += 1
                     
         return self.daily_wages, self.full_time_count, self.part_time_count, self.leaves_count, self.total_hours
-        
+ 
+         
 def main():
-    employee_object = Employee_Wage()
+    wage_per_hour = int(input("Enter wage per hour: "))
+    full_day_hour = int(input("Enter full day hour: "))
+    max_working_days = int(input("Enter total working days of month: "))
+    max_working_hours = int(input("Enter total working hours of month: "))
+    
+    employee_object = Employee_Wage(wage_per_hour,full_day_hour,max_working_days,max_working_hours)
     full_day_wage, part_time_wage = employee_object.calculate_wage()
     daily_wages, full_time_count, part_time_count, leaves_count, hours = employee_object.wage_for_month(full_day_wage, part_time_wage)
+    
+    print("-"*234)
     
     print(f"Per day wages of employee: {daily_wages}")
     print(f"Total Wage of the month: ${sum(daily_wages)}")
