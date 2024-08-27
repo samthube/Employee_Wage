@@ -76,21 +76,22 @@ class Employee_Wage:
         while total_days < self.max_working_days and total_hours < self.max_working_hours:
             attendance = self.check_attendance()
             
-            if attendance == 1:
-                daily_wages.append(full_day_wage)
-                full_time_count += 1
-                total_days += 1
-                total_hours += self.full_day_hour
+            match attendance:
+                case 1:
+                    daily_wages.append(full_day_wage)
+                    full_time_count += 1
+                    total_days += 1
+                    total_hours += self.full_day_hour
             
-            elif attendance == 2:
-                daily_wages.append(part_time_wage)
-                part_time_count += 1
-                total_days += 1
-                total_hours += self.full_day_hour / 2
+                case 2:
+                    daily_wages.append(part_time_wage)
+                    part_time_count += 1
+                    total_days += 1
+                    total_hours += self.full_day_hour / 2
             
-            else:
-                daily_wages.append(0)
-                leaves_count += 1
+                case 0 :
+                    daily_wages.append(0)
+                    leaves_count += 1
                     
         return daily_wages, full_time_count, part_time_count, leaves_count, total_hours
  
