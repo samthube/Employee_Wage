@@ -1,8 +1,8 @@
 '''
 @Author: Samadhan Thube
-@Date: 2024-08-26
+@Date: 2024-08-24
 @Last Modified by: Samadhan Thube
-@Last Modified time: 2024-08-26
+@Last Modified time: 2024-08-24
 @Title : Employee Wage Computation Problem 
 '''
 
@@ -89,41 +89,69 @@ class Employee_Wage:
                     total_days += 1
                     total_hours += self.full_day_hour / 2
             
-                case 0 :
+                case 0:
                     daily_wages.append(0)
                     leaves_count += 1
-                    
+                        
         return daily_wages, full_time_count, part_time_count, leaves_count, total_hours
  
          
+class CompanyEmpWage:
+    def __init__(self):
+        """
+        Description:
+            Constructor to initialize the CompanyEmpWage with an empty list of companies.
+        
+        Parameter:
+            None
+        """
+        self.companies = []
+
+    def add_and_compute_wage(self, company_name, wage_per_hour, full_day_hour, max_working_days, max_working_hours):
+        """
+        Description:
+            Adds a company and computes the wages by creating an instance of Employee_Wage and storing it.
+        
+        Parameters:
+            company_name (str): Name of the company.
+            wage_per_hour (int): The wage rate per hour.
+            full_day_hour (int): The number of hours in a full working day.
+            max_working_days (int): The maximum number of working days in a month.
+            max_working_hours (int): The maximum number of working hours in a month.
+        
+        Return:
+            None
+        """
+        company = Employee_Wage(company_name, wage_per_hour, full_day_hour, max_working_days, max_working_hours)
+        self.companies.append(company)
+
+        
+        daily_wages, full_time_count, part_time_count, leaves_count, total_hours = company.wage_for_month()
+        company.total_wage = sum(daily_wages)
+
+        print(f"Company: {company.company_name}")
+        print(f"Per day wages of employee: {daily_wages}")
+        print(f"Total Wage of the month: ${company.total_wage}")
+        print(f"Employee present full time: {full_time_count} days")
+        print(f"Employee present part time: {part_time_count} days")
+        print(f"Employee on leave: {leaves_count} days")
+        print(f"Total hours worked: {total_hours}")
+        print("-" * 50)
+
+
 def main():
-    
-    companies_info = {}
+    emp_wage_builder = CompanyEmpWage()
     number_of_companies = int(input("Enter no of companies: "))
-    
-    for company in range(number_of_companies):
+
+    for _ in range(number_of_companies):
         company_name = input("Enter company name: ")
         wage_per_hour = int(input("Enter wage per hour: "))
         full_day_hour = int(input("Enter full day hour: "))
         max_working_days = int(input("Enter total working days of month: "))
         max_working_hours = int(input("Enter total working hours of month: "))
-    
-        employee_object = Employee_Wage(company_name, wage_per_hour, full_day_hour, max_working_days, max_working_hours)
-        daily_wages, full_time_count, part_time_count, leaves_count, hours = employee_object.wage_for_month()
 
-        companies_info[company_name] = {}
-        companies_info[company_name]["Per day wages of employee"] = daily_wages
-        companies_info[company_name]["Total Wage of the month"] = sum(daily_wages)
-        companies_info[company_name]["Employee present full time"] = full_time_count
-        companies_info[company_name]["Employee present part time"] = part_time_count
-        companies_info[company_name]["Employee on leave"] = leaves_count
-        companies_info[company_name]["Total hours worked"] = hours
-        
-        print(companies_info)  
-        print("-" * 50)
-    
+        emp_wage_builder.add_and_compute_wage(company_name, wage_per_hour, full_day_hour, max_working_days, max_working_hours)
 
-    
 
 if __name__ == "__main__":
     main()
